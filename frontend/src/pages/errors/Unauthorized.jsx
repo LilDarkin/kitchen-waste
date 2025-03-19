@@ -1,126 +1,154 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { motion } from "framer-motion";
-import { useNavigate } from "react-router-dom";
+import { Lock, UserX, Home, HelpCircle } from "lucide-react";
 
-const Unauthorized = () => {
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
-  const navigate = useNavigate();
+const Alternative401Page = () => {
+  const [isAnimating, setIsAnimating] = useState(false);
 
-  useEffect(() => {
-    const handleMouseMove = (e) => {
-      setMousePosition({
-        x: e.clientX,
-        y: e.clientY
-      });
-    };
-
-    window.addEventListener("mousemove", handleMouseMove);
-    return () => window.removeEventListener("mousemove", handleMouseMove);
-  }, []);
-
-  const calculateRotation = () => {
-    const centerX = window.innerWidth / 2;
-    const centerY = window.innerHeight / 2;
-    const angleRad = Math.atan2(mousePosition.y - centerY, mousePosition.x - centerX);
-    return (angleRad * 180) / Math.PI;
+  const triggerAnimation = () => {
+    if (!isAnimating) {
+      setIsAnimating(true);
+      setTimeout(() => setIsAnimating(false), 2000);
+    }
   };
 
   return (
-    <div className="min-h-screen bg-gray-900 flex items-center justify-center relative overflow-hidden select-none">
-      {/* Background grid effect */}
-      <div className="absolute inset-0 bg-[linear-gradient(rgba(50,50,50,0.2)_1px,transparent_1px),linear-gradient(90deg,rgba(50,50,50,0.2)_1px,transparent_1px)] bg-[size:50px_50px]" />
-
-      {/* Floating particles */}
-      {[...Array(20)].map((_, i) => (
+    <div className="flex flex-col items-center justify-center min-h-screen bg-green-50 p-4">
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.5 }}
+        className="max-w-md w-full"
+      >
+        {/* Top bar */}
         <motion.div
-          key={i}
-          className="absolute w-2 h-2 bg-blue-500 rounded-full opacity-50"
-          initial={{
-            x: Math.random() * window.innerWidth,
-            y: Math.random() * window.innerHeight
-          }}
-          animate={{
-            x: Math.random() * window.innerWidth,
-            y: Math.random() * window.innerHeight,
-            scale: [1, 1.5, 1],
-            opacity: [0.5, 0.8, 0.5]
-          }}
-          transition={{
-            duration: Math.random() * 5 + 5,
-            repeat: Infinity,
-            ease: "linear"
-          }}
+          className="bg-green-600 h-2 w-full rounded-t-lg mb-8"
+          initial={{ scaleX: 0 }}
+          animate={{ scaleX: 1 }}
+          transition={{ duration: 0.6, ease: "easeOut", delay: 0.2 }}
         />
-      ))}
 
-      <div className="relative z-10 text-center">
-        {/* Main 404 text with glow effect */}
-        <motion.h1
-          className="text-8xl font-bold text-white mb-8"
-          initial={{ opacity: 0, y: -50 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          style={{
-            textShadow: "0 0 20px rgba(59, 130, 246, 0.5), 0 0 40px rgba(59, 130, 246, 0.3)"
-          }}
-        >
-          4
-          <motion.span
-            animate={{
-              rotate: calculateRotation(),
-              scale: [1, 1.2, 1]
-            }}
-            transition={{
-              rotate: { type: "spring", stiffness: 100 },
-              scale: { duration: 2, repeat: Infinity }
-            }}
-            className="inline-block"
+        {/* Interactive icon area */}
+        <div className="flex justify-center mb-10">
+          <motion.div
+            className="relative cursor-pointer"
+            onClick={triggerAnimation}
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
           >
-            0
-          </motion.span>
-          1
-        </motion.h1>
+            <motion.div
+              className="bg-green-100 w-32 h-32 rounded-full flex items-center justify-center cursor-pointer"
+              animate={
+                isAnimating
+                  ? {
+                      rotateY: [0, 180],
+                    }
+                  : {}
+              }
+              transition={{ duration: 1, ease: "easeInOut" }}
+            >
+              <motion.div
+                animate={isAnimating ? { opacity: [1, 0] } : { opacity: 1 }}
+                transition={{ duration: 0.5 }}
+              >
+                <Lock className="h-16 w-16 text-green-600" />
+              </motion.div>
 
-        {/* Subtitle with typing effect */}
-        <motion.p
-          className="text-xl text-blue-300 mb-8"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.5 }}
-        >
-          Unauthorized
-        </motion.p>
+              <motion.div
+                className="absolute inset-0 flex items-center justify-center"
+                initial={{ opacity: 0 }}
+                animate={
+                  isAnimating
+                    ? {
+                        opacity: [0, 1],
+                        rotateY: [180, 0],
+                      }
+                    : { opacity: 0 }
+                }
+                transition={{ duration: 0.5, delay: 0.5 }}
+              >
+                <UserX className="h-16 w-16 text-green-600" />
+              </motion.div>
+            </motion.div>
 
-        {/* Animated button */}
-        <motion.button
-          className="px-6 py-3 bg-blue-600 text-white rounded-lg font-semibold 
-                     hover:bg-blue-700 transition-colors duration-300 
-                     shadow-lg shadow-blue-500/30"
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
+            {/* Animated rings */}
+            <motion.div
+              className="absolute inset-0 rounded-full border-2 border-green-300"
+              animate={
+                isAnimating
+                  ? {
+                      scale: [1, 1.3],
+                      opacity: [0.5, 0],
+                    }
+                  : {}
+              }
+              transition={{ duration: 1, ease: "easeOut" }}
+            />
+            <motion.div
+              className="absolute inset-0 rounded-full border-2 border-green-300"
+              animate={
+                isAnimating
+                  ? {
+                      scale: [1, 1.5],
+                      opacity: [0.5, 0],
+                    }
+                  : {}
+              }
+              transition={{ duration: 1.2, ease: "easeOut", delay: 0.2 }}
+            />
+          </motion.div>
+        </div>
+
+        <div className="text-center mb-8">
+          <motion.h1
+            className="text-5xl font-bold text-green-800 tracking-tighter"
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.3 }}
+          >
+            401
+          </motion.h1>
+
+          <motion.h2
+            className="text-xl font-medium text-green-700 mt-2"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.4 }}
+          >
+            Access Restricted
+          </motion.h2>
+        </div>
+
+        <motion.div
+          className="bg-white p-6 rounded-lg shadow-sm border border-green-100 mb-8"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.8 }}
-          onClick={() => navigate("/")}
+          transition={{ delay: 0.5 }}
         >
-          Take Me Home
-        </motion.button>
-      </div>
+          <p className="text-green-700 text-center">
+            Sorry, you don't have permission to view this page.
+          </p>
+        </motion.div>
 
-      {/* Glowing orb following cursor */}
-      <motion.div
-        className="fixed w-64 h-64 rounded-full pointer-events-none"
-        animate={{
-          x: mousePosition.x - 128,
-          y: mousePosition.y - 128
-        }}
-        transition={{ type: "spring", damping: 30, stiffness: 200 }}
-        style={{
-          background: "radial-gradient(circle, rgba(59,130,246,0.2) 0%, rgba(59,130,246,0) 70%)"
-        }}
-      />
+        <motion.div
+          className="flex justify-between"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.6 }}
+        >
+          <motion.a
+            href="#"
+            className="flex items-center justify-center gap-2 py-2 px-4 bg-green-600 text-white rounded-lg font-medium min-w-24"
+            whileHover={{ scale: 1.03 }}
+            whileTap={{ scale: 0.97 }}
+          >
+            <Home className="h-4 w-4" />
+            Home
+          </motion.a>
+        </motion.div>
+      </motion.div>
     </div>
   );
 };
 
-export default Unauthorized;
+export default Alternative401Page;

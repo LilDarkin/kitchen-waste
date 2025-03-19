@@ -1,124 +1,86 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { motion } from "framer-motion";
-import { useNavigate } from "react-router-dom";
+import { Home, RefreshCw, ArrowRight } from "lucide-react";
 
 const NotFound = () => {
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
-  const navigate = useNavigate();
+  const [isGoingHome, setIsGoingHome] = useState(false);
+  const [isDragging, setIsDragging] = useState(false);
+  const [rotation, setRotation] = useState(0);
 
-  useEffect(() => {
-    const handleMouseMove = (e) => {
-      setMousePosition({
-        x: e.clientX,
-        y: e.clientY
-      });
-    };
+  const handleGoHome = () => {
+    setIsGoingHome(true);
+    // In a real app, you would redirect here
+    setTimeout(() => {
+      setIsGoingHome(false);
+    }, 2000);
+  };
 
-    window.addEventListener("mousemove", handleMouseMove);
-    return () => window.removeEventListener("mousemove", handleMouseMove);
-  }, []);
-
-  const calculateRotation = () => {
-    const centerX = window.innerWidth / 2;
-    const centerY = window.innerHeight / 2;
-    const angleRad = Math.atan2(mousePosition.y - centerY, mousePosition.x - centerX);
-    return (angleRad * 180) / Math.PI;
+  const handleDragEnd = () => {
+    // Reset after dragging ends
+    setIsDragging(false);
+    setRotation(0);
   };
 
   return (
-    <div className="min-h-screen bg-gray-900 flex items-center justify-center relative overflow-hidden select-none">
-      {/* Background grid effect */}
-      <div className="absolute inset-0 bg-[linear-gradient(rgba(50,50,50,0.2)_1px,transparent_1px),linear-gradient(90deg,rgba(50,50,50,0.2)_1px,transparent_1px)] bg-[size:50px_50px]" />
-
-      {/* Floating particles */}
-      {[...Array(20)].map((_, i) => (
+    <div className="flex flex-col items-center justify-center min-h-screen bg-green-50 p-4">
+      <motion.div
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+        className="text-center max-w-md w-full"
+      >
         <motion.div
-          key={i}
-          className="absolute w-2 h-2 bg-blue-500 rounded-full opacity-50"
-          initial={{
-            x: Math.random() * window.innerWidth,
-            y: Math.random() * window.innerHeight
+          drag
+          dragConstraints={{ left: 0, right: 0, top: 0, bottom: 0 }}
+          dragElastic={0.2}
+          onDragStart={() => setIsDragging(true)}
+          onDrag={(_, info) => {
+            // Change rotation based on drag direction and amount
+            setRotation(info.offset.x * 0.1);
           }}
+          onDragEnd={handleDragEnd}
           animate={{
-            x: Math.random() * window.innerWidth,
-            y: Math.random() * window.innerHeight,
-            scale: [1, 1.5, 1],
-            opacity: [0.5, 0.8, 0.5]
+            rotate: isDragging ? rotation : [0, 5, -5, 0],
+            scale: isDragging ? 1.1 : 1,
           }}
           transition={{
-            duration: Math.random() * 5 + 5,
-            repeat: Infinity,
-            ease: "linear"
+            duration: 3,
+            repeat: isDragging ? 0 : Infinity,
+            repeatType: "reverse",
+            ease: "easeInOut",
           }}
-        />
-      ))}
-
-      <div className="relative z-10 text-center">
-        {/* Main 404 text with glow effect */}
-        <motion.h1
-          className="text-8xl font-bold text-white mb-8"
-          initial={{ opacity: 0, y: -50 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          style={{
-            textShadow: "0 0 20px rgba(59, 130, 246, 0.5), 0 0 40px rgba(59, 130, 246, 0.3)"
-          }}
+          className="mb-8 text-green-600 font-bold text-9xl cursor-grab active:cursor-grabbing mx-auto inline-block"
         >
-          4
-          <motion.span
-            animate={{
-              rotate: calculateRotation(),
-              scale: [1, 1.2, 1]
-            }}
-            transition={{
-              rotate: { type: "spring", stiffness: 100 },
-              scale: { duration: 2, repeat: Infinity }
-            }}
-            className="inline-block"
-          >
-            0
-          </motion.span>
-          4
+          404
+        </motion.div>
+
+        <motion.h1 className="text-2xl font-medium text-green-800 mb-4">
+          Oops! Page Not Found
         </motion.h1>
 
-        {/* Subtitle with typing effect */}
-        <motion.p
-          className="text-xl text-blue-300 mb-8"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.5 }}
-        >
-          Page not found
+        <motion.p className="text-green-600 mb-12">
+          We can't seem to find the page you're looking for.
         </motion.p>
 
-        {/* Animated button */}
-        <motion.button
-          className="px-6 py-3 bg-blue-600 text-white rounded-lg font-semibold 
-                     hover:bg-blue-700 transition-colors duration-300 
-                     shadow-lg shadow-blue-500/30"
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.8 }}
-          onClick={() => navigate("/")}
-        >
-          Take Me Home
-        </motion.button>
-      </div>
-
-      {/* Glowing orb following cursor */}
-      <motion.div
-        className="fixed w-64 h-64 rounded-full pointer-events-none"
-        animate={{
-          x: mousePosition.x - 128,
-          y: mousePosition.y - 128
-        }}
-        transition={{ type: "spring", damping: 30, stiffness: 200 }}
-        style={{
-          background: "radial-gradient(circle, rgba(59,130,246,0.2) 0%, rgba(59,130,246,0) 70%)"
-        }}
-      />
+        <div className="flex justify-center gap-4">
+          <motion.button
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            onClick={handleGoHome}
+            className="flex items-center justify-center gap-2 bg-green-600 text-white py-3 px-6 rounded-lg font-medium transition-colors hover:bg-green-700"
+            disabled={isGoingHome}
+          >
+            {isGoingHome ? (
+              <RefreshCw className="h-5 w-5 animate-spin" />
+            ) : (
+              <>
+                <Home className="h-5 w-5" />
+                Home
+              </>
+            )}
+          </motion.button>
+        </div>
+      </motion.div>
     </div>
   );
 };
