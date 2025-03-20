@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import logo from "../../assets/nutricare.svg";
+import { useNavigate, Link } from "react-router-dom";   
+import logo from "app/assets/nutricare.svg";
 
 const CreateAccount = () => {
     const [name, setName] = useState("");
@@ -38,7 +38,7 @@ const CreateAccount = () => {
                 <input
                     type="text"
                     placeholder="Full Name"
-                    className="w-full h-[50px] p-2 border rounded-lg mt-1 bg-white text-black"
+                    className="w-full h-10 leading-7 pl-10 pr-4 border-2 border-transparent rounded-lg outline-none bg-[#f3f3f4] text-[#0d0c22] transition-all duration-300 ease-in-out placeholder:text-[#9e9ea7] focus:outline-none focus:border-[rgba(234,76,137,0.4)] focus:bg-white focus:ring-4 focus:ring-[rgba(234,76,137,0.1)] hover:outline-none hover:border-[rgba(234,76,137,0.4)] hover:bg-white hover:ring-4 hover:ring-[rgba(234,76,137,0.1)]"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                     required
@@ -91,7 +91,10 @@ const CreateAccount = () => {
 
             {/* Terms & Conditions */}
             <p className="text-sm text-[#512E2E] text-center mt-4 px-6">
-                By signing up, you agree to our <span className="underline">Terms of Use</span> and <span className="underline">Privacy Policy</span>.
+                By signing up, you agree to our{" "}
+                <Link to="/terms-of-use" className="underline text-[#512E2EA8] hover:text-blue-500">
+                    Terms of Use and Privacy Policy
+                </Link>{" "}
             </p>
         </div>
     );
