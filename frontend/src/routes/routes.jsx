@@ -11,6 +11,7 @@ let NotFound,
   CreateAccount,
   Home,
   Dashboard,
+  Splash,
   TermsOfUse;
 
 startTransition(() => {
@@ -25,9 +26,17 @@ startTransition(() => {
   Home = Loadable(lazy(() => import("app/pages/dashboard/Home")));
   Dashboard = Loadable(lazy(() => import("app/pages/dashboard/Dashboard")));
   TermsOfUse = Loadable(lazy(() => import("app/pages/login/TermsOfUse")));
+  Splash = Loadable(lazy(() => import("app/pages/splashing/Splash")));
 });
 
 const routes = [
+  // Home
+  { path: "/", element: <Navigate to="/splash" /> },
+  
+  // Splash
+  { path: "/splash", element: <Splash /> },
+
+  // Authentication
   { path: "/login", element: <Login /> },
   { path: "/landing", element: <LandingPage /> },
   { path: "/forgot-password", element: <ForgotPassword /> },
@@ -38,7 +47,6 @@ const routes = [
   },
   { path: "/terms-of-use", element: <TermsOfUse /> },
   { path: "/dashboard/home", element: <Home /> },
-  { path: "/", element: <Navigate to="/dashboard/home" /> },
   { path: "/unauthorized", element: <Unauthorized /> },
   { path: "*", element: <NotFound /> },
 ];
