@@ -1,0 +1,18 @@
+#dashboard-card {
+    border-width: 2px;
+    border-radius: 20px;
+    padding: 20px;
+    background-color: white;
+    font-size: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+#dashboard-card2 {
+    border-width: 2px;
+    border-radius: 20px;
+    padding: 20px;
+    background-color: #EFBFB3;
+    font-size: 20px;
+}

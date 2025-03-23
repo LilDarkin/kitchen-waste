@@ -1,53 +1,73 @@
-import { lazy, startTransition } from "react";
+import { lazy } from "react";
 import { Navigate } from "react-router-dom";
 import Loadable from "app/components/Loadable";
+import Template from "../components/Template";
 
-// Lazy loading components
-let NotFound,
-  Unauthorized,
-  LandingPage,
-  Login,
-  ForgotPassword,
-  CreateAccount,
-  Home,
-  Dashboard,
-  Splash,
-  TermsOfUse;
-
-startTransition(() => {
-  NotFound = lazy(() => import("app/pages/errors/NotFound"));
-  Unauthorized = Loadable(lazy(() => import("app/pages/errors/Unauthorized")));
-  LandingPage = Loadable(lazy(() => import("app/pages/Login/LandingPage")));
-  Login = Loadable(lazy(() => import("app/pages/Login/Login")));
-  ForgotPassword = Loadable(
-    lazy(() => import("app/pages/Login/ForgotPassword"))
-  );
-  CreateAccount = Loadable(lazy(() => import("app/pages/Login/CreateAccount")));
-  Home = Loadable(lazy(() => import("app/pages/dashboard/Home")));
-  Dashboard = Loadable(lazy(() => import("app/pages/dashboard/Dashboard")));
-  TermsOfUse = Loadable(lazy(() => import("app/pages/login/TermsOfUse")));
-  Splash = Loadable(lazy(() => import("app/pages/splashing/Splash")));
-});
+const NotFound = Loadable(lazy(() => import("app/pages/errors/NotFound")));
+const Unauthorized = Loadable(lazy(() => import("app/pages/errors/Unauthorized")));
+const LandingPage = Loadable(lazy(() => import("app/pages/Login/LandingPage")));
+const Login = Loadable(lazy(() => import("app/pages/Login/Login")));
+const ForgotPassword = Loadable(lazy(() => import("app/pages/Login/ForgotPassword")));
+const CreateAccount = Loadable(lazy(() => import("app/pages/Login/CreateAccount")));
+const TermsOfUse = Loadable(lazy(() => import("app/pages/Login/TermsOfUse")));
+const Splash = Loadable(lazy(() => import("app/pages/splashing/Splash")));
+const Analysis = Loadable(lazy(() => import("app/pages/analysis/Analysis")));
+const Welcome = Loadable(lazy(() => import("app/pages/dashboard/Welcome")));
+const Dashboard = Loadable(lazy(() => import("app/pages/dashboard/Dashboard")));
+const PNS = Loadable(lazy(() => import("app/pages/pns/PNS")));
+const Profile = Loadable(lazy(() => import("app/pages/profile/Profile")));
 
 const routes = [
-  // Home
   { path: "/", element: <Navigate to="/splash" /> },
-  
-  // Splash
-  { path: "/splash", element: <Splash /> },
 
-  // Authentication
+  { path: "/splash", element: <Splash /> },
   { path: "/login", element: <Login /> },
   { path: "/landing", element: <LandingPage /> },
   { path: "/forgot-password", element: <ForgotPassword /> },
   { path: "/create-account", element: <CreateAccount /> },
+  { path: "/terms-of-use", element: <TermsOfUse /> },
+  { path: "/unauthorized", element: <Unauthorized /> },
+
   {
     path: "/dashboard",
-    element: <Dashboard />,
+    element: <Template />,
+    children: [
+      { path: "", element: <Dashboard /> },
+    ]
   },
-  { path: "/terms-of-use", element: <TermsOfUse /> },
-  { path: "/dashboard/home", element: <Home /> },
-  { path: "/unauthorized", element: <Unauthorized /> },
+
+  {
+    path: "/analysis",
+    element: <Template />,
+    children: [
+      { path: "", element: <Analysis /> }
+    ]
+  },
+
+  {
+    path: "/welcome",
+    element: <Template hasNavigation />,
+    children: [
+      { path: "", element: <Welcome /> }
+    ]
+  },
+
+  {
+    path: "/pns",
+    element: <Template />,
+    children: [
+      { path: "", element: <PNS /> }
+    ]
+  },
+
+  {
+    path: "/profile",
+    element: <Template  />,
+    children: [
+      { path: "", element: <Profile /> }
+    ]
+  },
+
   { path: "*", element: <NotFound /> },
 ];
 
