@@ -94,33 +94,7 @@ const TermsOfUse = () => {
           We may update these Terms from time to time. Continued use of
           NutriCycle after updates constitutes acceptance of the revised Terms.
         </p>
-        {/* Agreement Checkbox */}
-        <div className="flex items-center mt-6">
-          <input
-            type="checkbox"
-            id="agree"
-            className="w-5 h-5 text-green-500"
-          />
-          <label
-            htmlFor="agree"
-            className="ml-2 tmt-4 text-black text-base font-light"
-          >
-            I have read and agree to the Terms of Service.
-          </label>
-        </div>
-        <div className="flex items-center mt-4">
-          <input
-            type="checkbox"
-            id="acknowledge"
-            className="w-5 h-5 text-green-500"
-          />
-          <label
-            htmlFor="acknowledge"
-            className="ml-2 tmt-4 text-black text-base font-light"
-          >
-            I acknowledge that continued use constitutes acceptance.
-          </label>
-        </div>
+      
         {/* Back Button */}
         <button
           onClick={() => navigate(-1)}

@@ -3,6 +3,8 @@ import { Navigate } from "react-router-dom";
 import Loadable from "app/components/Loadable";
 import Template from "../components/Template";
 
+import ProtectedRoute from "app/routes/ProtectedRoute";
+
 const NotFound = Loadable(lazy(() => import("app/pages/errors/NotFound")));
 const Unauthorized = Loadable(
   lazy(() => import("app/pages/errors/Unauthorized"))
@@ -23,6 +25,7 @@ const Dashboard = Loadable(lazy(() => import("app/pages/dashboard/Dashboard")));
 const PNS = Loadable(lazy(() => import("app/pages/pns/PNS")));
 const Profile = Loadable(lazy(() => import("app/pages/profile/Profile")));
 const CheckUser = Loadable(lazy(() => import("app/pages/login/CheckUser")));
+const DashboardLanding = Loadable(lazy(() => import("app/pages/DashboardLanding")));
 
 const routes = [
   { path: "/", element: <Navigate to="/splash" /> },
@@ -35,13 +38,7 @@ const routes = [
   { path: "/terms-of-use", element: <TermsOfUse /> },
   { path: "/unauthorized", element: <Unauthorized /> },
   { path: "/verify/:code", element: <CheckUser /> },
-
-  {
-    path: "/dashboard",
-    element: <Template />,
-    children: [{ path: "", element: <Dashboard /> }],
-  },
-
+  { path: "/dashboard", element: <Template />, children: [{ path: "", element: <ProtectedRoute element={<Dashboard />} /> }] },
   {
     path: "/analysis",
     element: <Template />,

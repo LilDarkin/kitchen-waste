@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Outlet, Link } from "react-router-dom";
 
-import dashboardlogo from "../../assets/dashboard.png";
+import dashboardlogo from "app/assets/dashboard.png";
 
 const Welcome = () => {
   
