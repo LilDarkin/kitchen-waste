@@ -6,6 +6,8 @@ import "./index.css";
 import "./css/Globals.css"
 
 import App from "./App";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const root = createRoot(document.getElementById("root"));
 
@@ -19,6 +21,7 @@ root.render(
   >
     <StrictMode>
       <BrowserRouter>
+        <ToastContainer />
         <App />
       </BrowserRouter>
     </StrictMode>

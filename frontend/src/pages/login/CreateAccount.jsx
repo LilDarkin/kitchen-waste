@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
+import axios from "axios";
+
 import {
   AlertCircleIcon,
   EyeIcon,
@@ -8,7 +10,7 @@ import {
   CheckCircleIcon,
 } from "lucide-react";
 import logo from "app/assets/nutricare.svg";
-import "app/css/Animations.css"
+import "app/css/Animations.css";
 
 const CreateAccount = () => {
   const [name, setName] = useState("");
@@ -21,6 +23,7 @@ const CreateAccount = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [successMessage, setSuccessMessage] = useState("");
   const navigate = useNavigate();
+  const API_URL = import.meta.env.VITE_API_URL;
 
   // Password validation
   const hasMinLength = password.length >= 8;
@@ -39,16 +42,29 @@ const CreateAccount = () => {
 
     setIsLoading(true);
 
-    // Simulate API call
-    await new Promise((resolve) => setTimeout(resolve, 1200));
+    try {
+      const res = await axios.post(
+        `${API_URL}/register`,
+        { name, email, password },
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
 
-    setSuccessMessage(`Account created for ${name}!`);
-    setIsLoading(false);
+      if (res.status !== 200) {
+        throw new Error(res.data.message || "Failed to create account");
+      }
 
-    // Navigate after showing success message
-    setTimeout(() => {
-      navigate("/login");
-    }, 2000);
+      setSuccessMessage(res.data?.message || "Account created successfully!");
+      setTimeout(() => navigate("/login"), 2000);
+    } catch (error) {
+      setError(error?.response?.data?.message || error.message);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -64,7 +80,11 @@ const CreateAccount = () => {
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.5 }}
       >
-        <img src={logo} alt="Nutricare Logo" className="w-30 h-30 bounce-slow" />
+        <img
+          src={logo}
+          alt="Nutricare Logo"
+          className="w-30 h-30 bounce-slow"
+        />
         <h1 className="text-3xl font-bold text-[#44562F] ml-2">NutriCycle</h1>
       </motion.div>
 

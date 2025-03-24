@@ -4,8 +4,10 @@ import { motion, AnimatePresence } from "framer-motion";
 import { UserIcon, KeyIcon, XCircleIcon, ArrowRightIcon } from "lucide-react";
 import logo from "app/assets/nutricare.svg";
 import "app/css/Animations.css";
+import axios from "axios";
 
 const Login = () => {
+  const API_URL = import.meta.env.VITE_API_URL;
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -17,13 +19,14 @@ const Login = () => {
     setIsLoading(true);
     setError("");
 
-    // Simulate API call
-    await new Promise((resolve) => setTimeout(resolve, 800));
+    try {
+      const res = await axios.post(`${API_URL}/login`, { email, password });
 
-    if (email === "admin@example.com" && password === "password") {
+      localStorage.setItem("token", res.data?.token);
       navigate("/dashboard");
-    } else {
-      setError("Invalid email or password. Please try again.");
+    } catch (error) {
+      setError(error?.response?.data?.message || error.message);
+    } finally {
       setIsLoading(false);
     }
   };
