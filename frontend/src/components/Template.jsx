@@ -4,6 +4,7 @@ import NeedHelp from "./NeedHelp";
 import Sidebar from "./Sidebar";
 import Navbar from "./Navbar";
 import { jwtDecode } from "jwt-decode";
+import { Navigate } from "react-router-dom";
 
 const Template = ({ hasNavigation = false }) => {
   const [sidebarOpen, setSidebarOpen] = useState(true);
