@@ -162,116 +162,162 @@ router.patch("/update-username/:id", async (req, res) => {
 
 router.post("/forgot-password", async (req, res) => {
   const { email } = req.body;
-
+  
+  // Input validation
   if (!email) {
     return res.status(400).json({ message: "Email is required" });
   }
 
   try {
-    // Check if email exists in the database
     const [rows] = await db.query("SELECT * FROM users WHERE email = ?", [email]);
-    
+   
     if (rows.length === 0) {
-      return res.status(404).json({ message: "Email not found" });
+      return res.status(404).json({ message: "No account associated with this email" });
     }
 
     const user = rows[0];
-
-    // Generate a unique password reset token
+    
     const resetToken = crypto.randomBytes(32).toString('hex');
-    const resetTokenExpiry = Date.now() + 3600000; // 1 hour from now
-
-    // Create a JWT token with user information
+    const resetTokenExpiry = Date.now() + 3600000;
+    
+    // Create JWT token
     const token = jwt.sign(
-      { 
-        email: user.email, 
-        id: user.id, 
-        resetToken: resetToken 
-      }, 
-      process.env.JWT_SECRET, 
+      {
+        email: user.email,
+        id: user.id,
+        resetToken: resetToken
+      },
+      process.env.JWT_SECRET,
       { expiresIn: '1h' }
     );
 
-    // Store the reset token and expiry in the database
     await db.query(
-      "UPDATE users SET reset_token = ?, reset_token_expiry = ? WHERE email = ?", 
+      "UPDATE users SET reset_token = ?, reset_token_expiry = ? WHERE email = ?",
       [resetToken, resetTokenExpiry, email]
     );
 
-    // Create a password reset link
     const resetLink = `${process.env.APP_URL}/reset-password?token=${token}`;
 
-    // Setup nodemailer transporter
+    // Create email transporter
     const transporter = nodemailer.createTransport({
       host: process.env.MAIL_HOST,
       port: parseInt(process.env.MAIL_PORT),
-      secure: process.env.MAIL_PORT === '465', // true for 465, false for other ports
+      secure: process.env.MAIL_PORT === '465',
       auth: {
         user: process.env.MAIL_USERNAME,
         pass: process.env.MAIL_PASSWORD
-      }
+      },
+      tls: {
+        rejectUnauthorized: false,
+      },
     });
 
-    // Email options with a styled HTML template
+    const emailTemplate = `
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Password Reset Request</title>
+        <style>
+            @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap');
+            body{font-family:'Poppins',sans-serif;margin:0;padding:0;color:#4a4a4a;background-color:#f5f5f5;line-height:1.6}
+            .container{max-width:600px;margin:0 auto;background-color:#fff;border-radius:12px;overflow:hidden;box-shadow:0 4px 10px rgba(0,0,0,0.05)}
+            .header{background-color:#34A853;padding:30px 20px;text-align:center}
+            .logo-container{margin-bottom:15px}
+            .welcome-text{color:white;font-size:22px;font-weight:600;margin:0;text-shadow:0 1px 2px rgba(0,0,0,0.1)}
+            .content{padding:35px 30px}
+            h2{color:#34A853;font-size:24px;margin-top:0;border-bottom:2px solid #f0f0f0;padding-bottom:12px}
+            .message{background-color:#f8f9fa;border-left:4px solid #34A853;padding:15px;margin:20px 0;border-radius:0 8px 8px 0}
+            .button-container{text-align:center;margin:30px 0}
+            .button{display:inline-block;background-color:#34A853;color:#000;text-decoration:none;padding:12px 30px;border-radius:50px;font-weight:500;box-shadow:0 4px 6px rgba(239,191,179,0.2);transition:all 0.3s}
+            .button:hover{background-color:#2d9249;box-shadow:0 6px 8px rgba(52,168,83,0.3)}
+            .link-fallback{text-align:center;margin:20px 0;padding:15px;background-color:#f8f9fa;border-radius:8px;word-break:break-all;font-size:13px;color:#666}
+            .expiry-note{font-size:14px;color:#888;font-style:italic;text-align:center;margin-top:25px}
+            .divider{height:1px;background-color:#f0f0f0;margin:30px 0}
+            .signature{font-weight:500;color:#34A853}
+            .footer{padding:20px;text-align:center;color:#888;font-size:12px;background-color:#f9f9f9;border-top:1px solid #eee}
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <div class="header">
+                <div class="logo-container">
+                    <img src="${process.env.APP_URL}/src/assets/nutricare.svg" alt="NutriCycle" height="50" />
+                </div>
+                <div class="welcome-text">Password Reset Request</div>
+            </div>
+            <div class="content">
+                <h2>Hello, ${user.name || 'User'}!</h2>
+                
+                <div class="message">
+                    You have requested to reset your password for your NutriCycle account.
+                </div>
+                
+                <p>Click the button below to reset your password:</p>
+                
+                <div class="button-container">
+                    <a href="${resetLink}" class="button">Reset Password</a>
+                </div>
+                
+                <div class="link-fallback">
+                    If the button doesn't work, copy and paste this link:
+                    <br>${resetLink}
+                </div>
+                
+                <div class="expiry-note">
+                    This password reset link will expire in 1 hour for security reasons.
+                </div>
+                
+                <div class="divider"></div>
+                
+                <p>If you did not request a password reset, please ignore this email or contact our support team.</p>
+                
+                <p>Best regards,<br><span class="signature">The NutriCycle Team</span></p>
+            </div>
+            <div class="footer">
+                <p>© ${new Date().getFullYear()} NutriCycle. All rights reserved.</p>
+                <p>Questions? Contact us at <a href="mailto:support@nutricycle.com" style="color:#34A853;">support@nutricycle.com</a></p>
+            </div>
+        </div>
+    </body>
+    </html>
+    `;
+
     const mailOptions = {
       from: `"NutriCycle" <${process.env.MAIL_USERNAME}>`,
       to: email,
       subject: 'Password Reset Request',
-      html: `
-        <!DOCTYPE html>
-        <html lang="en">
-        <head>
-          <meta charset="UTF-8">
-          <style>
-            body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
-            .container { 
-              max-width: 600px; 
-              margin: 0 auto; 
-              padding: 20px; 
-              background-color: #f4f4f4;
-            }
-            .button {
-              display: inline-block;
-              padding: 10px 20px;
-              background-color: #EFBFB3;
-              color: #000;
-              text-decoration: none;
-              border-radius: 5px;
-              font-weight: bold;
-            }
-            .footer { font-size: 0.8em; color: #666; }
-          </style>
-        </head>
-        <body>
-          <div class="container">
-            <h1>Password Reset Request</h1>
-            <p>Hello,</p>
-            <p>You have requested to reset your password for your NutriCycle account. Click the button below to reset your password:</p>
-            <p style="text-align: center;">
-              <a href="${resetLink}" class="button">Reset Password</a>
-            </p>
-            <p>If you did not request a password reset, please ignore this email or contact support if you have concerns.</p>
-            <p>This link will expire in 1 hour.</p>
-            <div class="footer">
-              <p>© ${new Date().getFullYear()} NutriCycle. All rights reserved.</p>
-            </div>
-          </div>
-        </body>
-        </html>
-      `
+      html: emailTemplate
     };
 
-    // Send email
     await transporter.sendMail(mailOptions);
 
-    res.status(200).json({ message: "Password reset link sent to your email" });
+    res.status(200).json({ 
+      message: "Password reset link sent to your email",
+      timestamp: new Date().toISOString()
+    });
+
   } catch (err) {
     console.error('Forgot password error:', err);
-    return res.status(500).json({ message: "Server error" });
+    
+    if (err.code === 'EAUTH') {
+      return res.status(500).json({ 
+        message: "Email service authentication failed. Please try again later." 
+      });
+    } else if (err.code === 'ECONNREFUSED') {
+      return res.status(500).json({ 
+        message: "Unable to connect to email service. Please try again later." 
+      });
+    }
+
+    return res.status(500).json({ 
+      message: "An unexpected error occurred. Please try again later.",
+      error: process.env.NODE_ENV === 'development' ? err.message : undefined
+    });
   }
 });
 
-// Add a route to verify the reset token
 router.get("/verify-reset-token", async (req, res) => {
   const { token } = req.query;
 
@@ -280,10 +326,8 @@ router.get("/verify-reset-token", async (req, res) => {
   }
 
   try {
-    // Verify the JWT token
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
-    // Check if the token exists in the database and hasn't expired
     const [rows] = await db.query(
       "SELECT * FROM users WHERE email = ? AND reset_token = ? AND reset_token_expiry > ?", 
       [decoded.email, decoded.resetToken, Date.now()]
@@ -293,7 +337,6 @@ router.get("/verify-reset-token", async (req, res) => {
       return res.status(400).json({ message: "Invalid or expired reset token" });
     }
 
-    // Return user email for frontend to use
     res.status(200).json({ 
       message: "Token is valid", 
       email: decoded.email 
@@ -314,10 +357,8 @@ router.post("/reset-password", async (req, res) => {
   }
 
   try {
-    // Verify the JWT token
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
-    // Check if the token exists in the database and hasn't expired
     const [rows] = await db.query(
       "SELECT * FROM users WHERE email = ? AND reset_token = ? AND reset_token_expiry > ?", 
       [decoded.email, decoded.resetToken, Date.now()]
@@ -329,10 +370,8 @@ router.post("/reset-password", async (req, res) => {
 
     const user = rows[0];
 
-    // Hash the new password
     const hashedPassword = await bcrypt.hash(newPassword, 10);
 
-    // Update password and clear reset token
     await db.query(
       "UPDATE users SET password = ?, reset_token = NULL, reset_token_expiry = NULL WHERE id = ?", 
       [hashedPassword, user.id]
