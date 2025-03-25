@@ -9,13 +9,13 @@ const NotFound = Loadable(lazy(() => import("app/pages/errors/NotFound.jsx")));
 const Unauthorized = Loadable(
   lazy(() => import("app/pages/errors/Unauthorized.jsx"))
 );
-const LandingPage = Loadable(lazy(() => import("app/pages/Login/LandingPage.jsx")));
-const Login = Loadable(lazy(() => import("app/pages/Login/Login.jsx")));
+const LandingPage = Loadable(lazy(() => import("app/pages/login/LandingPage.jsx")));
+const Login = Loadable(lazy(() => import("app/pages/login/Login.jsx")));
 const ForgotPassword = Loadable(
-  lazy(() => import("app/pages/Login/ForgotPassword.jsx"))
+  lazy(() => import("app/pages/login/ForgotPassword.jsx"))
 );
 const CreateAccount = Loadable(
-  lazy(() => import("app/pages/Login/CreateAccount.jsx"))
+  lazy(() => import("app/pages/login/CreateAccount.jsx"))
 );
 const TermsOfUse = Loadable(lazy(() => import("app/pages/Login/TermsOfUse.jsx")));
 const Splash = Loadable(lazy(() => import("app/pages/splashing/Splash.jsx")));
