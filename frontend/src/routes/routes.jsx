@@ -17,7 +17,7 @@ const ForgotPassword = Loadable(
 const CreateAccount = Loadable(
   lazy(() => import("app/pages/login/CreateAccount.jsx"))
 );
-const TermsOfUse = Loadable(lazy(() => import("app/pages/Login/TermsOfUse.jsx")));
+const TermsOfUse = Loadable(lazy(() => import("app/pages/login/TermsOfUse.jsx")));
 const Splash = Loadable(lazy(() => import("app/pages/splashing/Splash.jsx")));
 const Analysis = Loadable(lazy(() => import("app/pages/analysis/Analysis.jsx")));
 const Welcome = Loadable(lazy(() => import("app/pages/dashboard/Welcome.jsx")));
