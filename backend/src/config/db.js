@@ -15,7 +15,9 @@ const createUsersTable = async () => {
       email VARCHAR(191) NOT NULL UNIQUE,
       active BOOLEAN DEFAULT FALSE,
       code VARCHAR(191),
-      password VARCHAR(191) NOT NULL
+      password VARCHAR(191) NOT NULL,
+      reset_token VARCHAR(191) DEFAULT NULL,
+      reset_token_expiry BIGINT DEFAULT NULL
     )
   `;
   await db.query(query);

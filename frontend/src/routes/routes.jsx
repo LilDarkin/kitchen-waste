@@ -18,6 +18,7 @@ const CreateAccount = Loadable(
   lazy(() => import("app/pages/login/CreateAccount.jsx"))
 );
 const TermsOfUse = Loadable(lazy(() => import("app/pages/login/TermsOfUse.jsx")));
+const ResetPassword = Loadable(lazy(() => import("app/pages/login/ResetPassword.jsx")));
 const Splash = Loadable(lazy(() => import("app/pages/splashing/Splash.jsx")));
 const Analysis = Loadable(lazy(() => import("app/pages/analysis/Analysis.jsx")));
 const Welcome = Loadable(lazy(() => import("app/pages/dashboard/Welcome.jsx")));
@@ -39,6 +40,7 @@ const routes = [
   { path: "/unauthorized", element: <Unauthorized /> },
   { path: "/verify/:code", element: <CheckUser /> },
   { path: "/dashboard", element: <Template />, children: [{ path: "", element: <ProtectedRoute element={<Dashboard />} /> }] },
+  {path: "/reset-password/:code", element: <ResetPassword />},
   {
     path: "/analysis",
     element: <Template />,
