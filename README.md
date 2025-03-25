@@ -1,12 +1,53 @@
-# React + Vite
+# REACT + VITE
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## How to run
 
-Currently, two official plugins are available:
+```bash
+git clone https://github.com/LilDarkin/kitchen-waste.git
+```
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+# Frontend
+1. npm install
+2. npm run dev
 
-## Expanding the ESLint configuration
+# Backend
+1. npm install
+2. npm run start
 
-If you are developing a production application, we recommend using TypeScript and enable type-aware lint rules. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+# Tools used
+1. MYSQL Workbench
+2. VSCODE
+3. WAMPP
+
+## ENV
+
+# Frontend
+
+```conf
+VITE_API_URL=
+VITE_APP_URL=
+VITE_JWT_SECRET=
+```
+
+# Backend
+```conf
+# Server
+PORT=3000
+APP_URL=
+
+# Database
+DB_HOST=localhost
+DB_USER=root
+DB_PASS=
+DB_NAME=
+DB_PORT=3306
+
+JWT_SECRET=
+
+# Email
+
+MAIL_HOST=
+MAIL_PORT=
+MAIL_USERNAME=
+MAIL_PASSWORD=
+```

@@ -34,7 +34,7 @@ const Welcome = () => {
             onMouseEnter={() => setIsButtonHovered(true)}
             onMouseLeave={() => setIsButtonHovered(false)}
           >
-            {isButtonHovered ? "→ Get Started" : "Get Started"}
+            Get Started
           </button>
         </Link>
       </main>

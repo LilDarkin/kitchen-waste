@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 
 const FastLoadingPage = () => {
   return (
-    <div className="flex items-center h-full justify-center bg-transparent">
+    <div className="flex flex-col items-center h-96 justify-center bg-transparent">
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
