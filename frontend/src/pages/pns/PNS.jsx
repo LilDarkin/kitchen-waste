@@ -7,29 +7,29 @@ const PNS = () => {
   const [isNoModalOpen, setNoModalOpen] = useState(false);
 
   return (
-    <div className="flex flex-col items-center gap-4 ">
+    <div className="flex flex-col items-center gap-4 px-4">
       {/* Title Box */}
-      <div className="border rounded-[10px] w-[485px] h-[225px]  bg-white flex flex-col justify-between items-center text-xl font-bold p-4">
+      <div className="border rounded-[10px] max-w-[485px] w-full min-h-[225px] bg-white flex flex-col justify-between items-center text-lg sm:text-xl font-bold p-4">
         {/* Top Box - Does NOT meet PNS Standards */}
-        <div className="border rounded-[10px] w-[446px] h-[144px] bg-[#44562F] text-[#E9DFB4] flex justify-center items-center text-xl font-bold">
+        <div className="border rounded-[10px] max-w-[446px] w-full min-h-[144px] bg-[#44562F] text-[#E9DFB4] flex justify-center items-center text-lg sm:text-xl font-bold text-center px-2">
           Does NOT meet PNS Standards.
         </div>
 
         {/* Bottom Text - Do you want to continue? */}
-        <p className="mt-4">Do you want to continue?</p>
+        <p className="mt-4 text-center">Do you want to continue?</p>
       </div>
 
       {/* Yes & No Buttons */}
-      <div className="flex flex-col gap-2">
+      <div className="flex flex-col gap-2 w-full max-w-[268px]">
         <button
           onClick={() => setYesModalOpen(true)}
-          className="w-[268px] h-[49px] cursor-pointer bg-[#FDA4A5] text-black font-bold rounded-lg "
+          className="w-full min-h-[49px] cursor-pointer bg-[#FDA4A5] text-black font-bold rounded-lg text-lg"
         >
           Yes
         </button>
         <button
           onClick={() => setNoModalOpen(true)}
-          className="w-[268px] h-[49px] cursor-pointer bg-[#E9DFB4] text-black font-bold rounded-lg "
+          className="w-full min-h-[49px] cursor-pointer bg-[#E9DFB4] text-black font-bold rounded-lg text-lg"
         >
           No
         </button>

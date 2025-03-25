@@ -23,7 +23,7 @@ const Login = () => {
       const res = await axios.post(`${API_URL}/login`, { email, password });
 
       localStorage.setItem("token", res.data?.token);
-      navigate("/dashboard");
+      navigate("/welcome");
     } catch (error) {
       setError(error?.response?.data?.message || error.message);
     } finally {

@@ -1,18 +1,16 @@
-import React from 'react';
-import { motion } from 'framer-motion';
+import React from "react";
+import { motion } from "framer-motion";
 
 const FastLoadingPage = () => {
   return (
-    <div className="flex items-center justify-center min-h-screen bg-green-50">
-      <motion.div 
+    <div className="flex items-center h-full justify-center bg-transparent">
+      <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.2 }}
         className="text-center"
       >
-        <motion.div 
-          className="flex space-x-2 justify-center mb-2"
-        >
+        <motion.div className="flex space-x-2 justify-center mb-2">
           {[0, 1, 2].map((dot) => (
             <motion.div
               key={dot}
@@ -25,13 +23,13 @@ const FastLoadingPage = () => {
                 duration: 0.4,
                 repeat: Infinity,
                 delay: dot * 0.1,
-                ease: "easeInOut"
+                ease: "easeInOut",
               }}
             />
           ))}
         </motion.div>
-        
-        <motion.p 
+
+        <motion.p
           className="text-green-600 text-sm font-medium"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}

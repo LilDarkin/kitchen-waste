@@ -4,11 +4,10 @@ import { Outlet, Link } from "react-router-dom";
 import dashboardlogo from "app/assets/dashboard.png";
 
 const Welcome = () => {
-  
   const [isButtonHovered, setIsButtonHovered] = useState(false);
 
   return (
-    <div className="flex flex-col min-h-screen ">
+    <div className="flex flex-col min-h-screen">
       {/* MAIN CONTENT */}
       <main className="flex-grow flex flex-col items-center justify-center px-4 text-center">
         <h2 className="text-2xl md:text-4xl font-bold mb-4 text-[#2A9134] transition-all duration-500 hover:text-[#1e6a26]">
