@@ -1,31 +1,31 @@
 import { lazy } from "react";
 import { Navigate } from "react-router-dom";
-import Loadable from "app/components/Loadable";
-import Template from "../components/Template";
+import Loadable from "app/components/Loadable.jsx";
+import Template from "app/components/Template.jsx";
 
-import ProtectedRoute from "app/routes/ProtectedRoute";
+import ProtectedRoute from "app/routes/ProtectedRoute.jsx";
 
-const NotFound = Loadable(lazy(() => import("app/pages/errors/NotFound")));
+const NotFound = Loadable(lazy(() => import("app/pages/errors/NotFound.jsx")));
 const Unauthorized = Loadable(
-  lazy(() => import("app/pages/errors/Unauthorized"))
+  lazy(() => import("app/pages/errors/Unauthorized.jsx"))
 );
-const LandingPage = Loadable(lazy(() => import("app/pages/Login/LandingPage")));
-const Login = Loadable(lazy(() => import("app/pages/Login/Login")));
+const LandingPage = Loadable(lazy(() => import("app/pages/Login/LandingPage.jsx")));
+const Login = Loadable(lazy(() => import("app/pages/Login/Login.jsx")));
 const ForgotPassword = Loadable(
-  lazy(() => import("app/pages/Login/ForgotPassword"))
+  lazy(() => import("app/pages/Login/ForgotPassword.jsx"))
 );
 const CreateAccount = Loadable(
-  lazy(() => import("app/pages/Login/CreateAccount"))
+  lazy(() => import("app/pages/Login/CreateAccount.jsx"))
 );
-const TermsOfUse = Loadable(lazy(() => import("app/pages/Login/TermsOfUse")));
-const Splash = Loadable(lazy(() => import("app/pages/splashing/Splash")));
-const Analysis = Loadable(lazy(() => import("app/pages/analysis/Analysis")));
-const Welcome = Loadable(lazy(() => import("app/pages/dashboard/Welcome")));
-const Dashboard = Loadable(lazy(() => import("app/pages/dashboard/Dashboard")));
-const PNS = Loadable(lazy(() => import("app/pages/pns/PNS")));
-const Profile = Loadable(lazy(() => import("app/pages/profile/Profile")));
-const CheckUser = Loadable(lazy(() => import("app/pages/login/CheckUser")));
-const DashboardLanding = Loadable(lazy(() => import("app/pages/DashboardLanding")));
+const TermsOfUse = Loadable(lazy(() => import("app/pages/Login/TermsOfUse.jsx")));
+const Splash = Loadable(lazy(() => import("app/pages/splashing/Splash.jsx")));
+const Analysis = Loadable(lazy(() => import("app/pages/analysis/Analysis.jsx")));
+const Welcome = Loadable(lazy(() => import("app/pages/dashboard/Welcome.jsx")));
+const Dashboard = Loadable(lazy(() => import("app/pages/dashboard/Dashboard.jsx")));
+const PNS = Loadable(lazy(() => import("app/pages/pns/PNS.jsx")));
+const Profile = Loadable(lazy(() => import("app/pages/profile/Profile.jsx")));
+const CheckUser = Loadable(lazy(() => import("app/pages/login/CheckUser.jsx")));
+const DashboardLanding = Loadable(lazy(() => import("app/pages/DashboardLanding.jsx")));
 
 const routes = [
   { path: "/", element: <Navigate to="/splash" /> },

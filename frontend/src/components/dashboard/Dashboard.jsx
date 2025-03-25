@@ -1,11 +1,11 @@
 import NPKCard from "./NPKCard";
-import OverallNPKCard from "./OverallNPKCard";
+import OverallNPKCard from "./OverallNPKCard.jsx";
 
-import TempHumidCard from "./TempHumidCard";
-import PhCategoryCard from "./PhCategory";
+import TempHumidCard from "./TempHumidCard.jsx";
+import PhCategoryCard from "./PhCategory.jsx";
 
-import GrindingCard from "./GrindingCard";
-import DryingCard from "./DryingCard";
+import GrindingCard from "./GrindingCard.jsx";
+import DryingCard from "./DryingCard.jsx";
 
 const DashboardComponent = () => {
     return (

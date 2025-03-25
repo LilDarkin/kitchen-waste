@@ -1,5 +1,5 @@
 import { Suspense } from "react";
-import Loading from "./Loading";
+import Loading from "./Loading.jsx";
 const Loadable = (Component) => (props) => {
   return (
     <Suspense fallback={<Loading />}>

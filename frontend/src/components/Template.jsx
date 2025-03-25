@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { Outlet } from "react-router-dom";
-import NeedHelp from "./NeedHelp";
-import Sidebar from "./Sidebar";
-import Navbar from "./Navbar";
+import NeedHelp from "./NeedHelp.jsx";
+import Sidebar from "./Sidebar.jsx";
+import Navbar from "./Navbar.jsx";
 import { jwtDecode } from "jwt-decode";
 import { Navigate } from "react-router-dom";
 

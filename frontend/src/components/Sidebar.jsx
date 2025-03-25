@@ -1,9 +1,9 @@
 import React from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import HomeIcon from "./icons/HomeIcon";
-import DashboardIcon from "./icons/DashboardIcon";
-import PNSIcon from "./icons/PNSIcon";
-import ProfileIcon from "./icons/ProfileIcon";
+import HomeIcon from "./icons/HomeIcon.jsx";
+import DashboardIcon from "./icons/DashboardIcon.jsx";
+import PNSIcon from "./icons/PNSIcon.jsx";
+import ProfileIcon from "./icons/ProfileIcon.jsx";
 
 const Sidebar = ({ isOpen }) => {
   const location = useLocation();
