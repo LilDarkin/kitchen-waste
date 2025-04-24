@@ -1,7 +1,7 @@
 // src/config/mqttClient.js
 const mqtt = require("mqtt");
 
-const broker = "mqtt://192.168.165.112:1883";
+const broker = "mqtt://192.168.76.112:1883";
 const topic = "sensor/control";
 
 const client = mqtt.connect(broker);

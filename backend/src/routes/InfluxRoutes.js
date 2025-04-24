@@ -4,10 +4,10 @@ const { InfluxDB } = require("@influxdata/influxdb-client");
 const router = express.Router();
 
 // Replace these with your actual InfluxDB settings
-const url = "http://localhost:8086";
-const token = "your-influxdb-token";
-const org = "your-org-name";
-const bucket = "your-bucket-name";
+const url = "http://192.168.76.112:8086";
+const token = "S7bJY5iqVeLX_jxjWMZurMssteAwJukWFIADtSY6yHWJchUORHKX_2pr47_M5QJOmjCWlhvUzrkMzCA7NYE2CQ==";
+const org = "tokiyavikkikokak";
+const bucket = "toki";
 
 const influxDB = new InfluxDB({ url, token });
 const queryApi = influxDB.getQueryApi(org);

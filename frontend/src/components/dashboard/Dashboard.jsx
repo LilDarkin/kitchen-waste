@@ -7,7 +7,7 @@ import DryingCard from "./DryingCard.jsx";
 
 const DashboardComponent = () => {
   const sendCommand = (command) => {
-    fetch(`http://192.168.165.112:8000/control/${command}`)
+    fetch(`http://192.168.76.112:8080/control/${command}`)
       .then((res) => res.json())
       .then((data) => {
         console.log("✅ FastAPI response:", data);

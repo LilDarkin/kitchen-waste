@@ -4,7 +4,7 @@ const mqtt = require("mqtt");
 const router = express.Router();
 
 // MQTT Setup
-const broker = "mqtt://192.168.168.112:1883"; // Update this if needed
+const broker = "mqtt://192.168.76.112:1883"; // Update this if needed
 const topic_control = "sensor/control";
 
 const client = mqtt.connect(broker);
