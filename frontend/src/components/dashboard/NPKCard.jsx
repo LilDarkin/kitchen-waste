@@ -12,7 +12,7 @@ const NPKCard = ({ className }) => {
       setError(null);
 
       try {
-        const res = await axios.get("http://192.168.76.112:8080/api/influx/latest");
+        const res = await axios.get("https://harmless-sloth-coherent.ngrok-free.app/api/influx/latest");
 
         if (res.data?.status === "success" && Array.isArray(res.data.data)) {
           const parsed = {};

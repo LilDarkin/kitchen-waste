@@ -4,19 +4,22 @@ import TempHumidCard from "./TempHumidCard.jsx";
 import PhCategoryCard from "./PhCategory.jsx";
 import GrindingCard from "./GrindingCard.jsx";
 import DryingCard from "./DryingCard.jsx";
+import axios from "axios";
 
 const DashboardComponent = () => {
-  const sendCommand = (command) => {
-    fetch(`http://192.168.76.112:8080/control/${command}`)
-      .then((res) => res.json())
-      .then((data) => {
-        console.log("✅ FastAPI response:", data);
-      })
-      .catch((err) => {
-        console.error("❌ Failed to send command:", err);
-      });
-  };
+const sendCommand = async (command) => {
+  try {
+    const response = await axios.get(`https://harmless-sloth-coherent.ngrok-free.app/api/control?command=${command}`, {
+      headers: {
+        "Accept": "application/json"
+      }
+    });
 
+     console.log("✅ Command sent:", response.data);
+  } catch (error) {
+    console.error("❌ Error sending command:", error);
+  }
+};
   return (
     <div className="p-6">
       <div className="grid grid-cols-12 gap-5">

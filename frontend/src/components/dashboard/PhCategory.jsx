@@ -21,7 +21,7 @@ const PhCategory = ({ className }) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const res = await axios.get("http://192.168.76.112:8080/api/influx/latest");
+        const res = await axios.get("https://harmless-sloth-coherent.ngrok-free.app/api/influx/latest");
         if (res.data.status === "success" && res.data.data) {
           const parsed = {};
           res.data.data.forEach(item => {

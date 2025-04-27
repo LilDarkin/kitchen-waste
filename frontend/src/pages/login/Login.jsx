@@ -20,7 +20,12 @@ const Login = () => {
     setError("");
 
     try {
-      const res = await axios.post(`${API_URL}/login`, { email, password });
+const res = await axios.post('https://harmless-sloth-coherent.ngrok-free.app/api/login', {
+  email,
+  password
+})
+
+
 
       localStorage.setItem("token", res.data?.token);
       navigate("/welcome");
